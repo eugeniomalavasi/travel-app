@@ -11,7 +11,7 @@
 
 <template>
   <AppNavBar />
-  <div class="container">
+  <div class="">
     <MainMap />
   </div>
   <AppFooter />
