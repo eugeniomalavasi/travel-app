@@ -3,6 +3,7 @@
     import { Map, MapStyle, Marker, config } from '@maptiler/sdk';
     import '@maptiler/sdk/dist/maptiler-sdk.css';
     import axios from 'axios';
+    import { stringify, parse } from 'flatted';
 
     const mapContainer = ref(null);
     const map = ref(null);
@@ -34,28 +35,46 @@
     });
 
     const save_form = async () => {
-        const address = form.title;
-        // if (!form.title) {
-        //     console.log('inserisci indirizzo');
-        //     return;
-        // }
+        const address = form.value.title;
+        if (!address) {
+            console.log('Inserisci un indirizzo');
+            return;
+        }
 
         try {
             const response = await axios.get(`https://api.tomtom.com/search/2/geocode/${encodeURIComponent(address)}.json?key=SvIJjQs1GXAO5L5EXzIoRElBWyGEsSX2`);
-            const { lat, lon } = response.data.result[0].position;
-            console.log(response);
-
-            localStorage.setItem('coordinates', JSON.stringify({ lat, lon }));
-            console.log(lat, lon);
-
+            if (response.data.results && response.data.results.length > 0) {
+                const { lat, lon } = response.data.results[0].position;
+                // localStorage.setItem('coordinates', JSON.stringify({ lat, lon }));
+                localStorage.setItem('coordinates', stringify({ lat, lon }));
+                if (map.value) {
+                    const location = new Marker({ color: "blue" })
+                        .setLngLat([lon, lat])
+                        .addTo(map.value);
+                    localStorage.setItem('location', JSON.stringify(location))
+                    console.log('Marker added at:', lat, lon);
+                }
+            } else {
+                console.log('Indirizzo non trovato');
+            }
         } catch (error) {
-            console.error('fallito')
+            console.error('Richiesta fallita', error);
         }
-    }
+    };
 
     const getStoredCoordinates = () => {
-        const coordinates = localStorage.getItem('coordinates');
-        return coordinates ? JSON.parse(coordinates) : null;
+        const serializedCoordinates = localStorage.getItem('coordinates');
+        const serializedLocation = localStorage.getItem('location'); // Assuming you're storing location similarly
+
+        if (serializedCoordinates && serializedLocation) {
+            // Deserialize coordinates using Flatted
+            const parsedCoordinates = parse(serializedCoordinates);
+            const parsedLocation = parse(serializedLocation); // Deserialize location if needed
+
+            return { coordinates: parsedCoordinates, location: parsedLocation };
+        } else {
+            return null;
+        }
     };
 </script>
 
@@ -85,7 +104,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                        <button type="button" class="btn btn-primary" @click="save_form">Salva</button>
+                        <button type="submit" class="btn btn-primary" @click.prevent="save_form">Salva</button>
                     </div>
                 </div>
             </div>
