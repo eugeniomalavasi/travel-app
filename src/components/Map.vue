@@ -94,10 +94,31 @@
         if (selectedMarker.value) {
             const { marker, lat, lon, title, description } = selectedMarker.value;
 
+            // Rimuovi il marker dalla mappa
             marker.remove();
 
+            // Rimuovi il marker da localStorage
             let coordinates = getStoredCoordinates();
             coordinates = coordinates.filter(coord => coord.lat !== lat || coord.lon !== lon || coord.title !== title || coord.description !== description);
+            localStorage.setItem('coordinates', JSON.stringify(coordinates));
+
+            closeModal();
+        }
+    };
+
+    const updateDescription = () => {
+        if (selectedMarker.value) {
+            const { lat, lon, title, description } = selectedMarker.value;
+            let coordinates = getStoredCoordinates();
+            
+            // Trova e aggiorna il marker nel localStorage
+            coordinates = coordinates.map(coord => {
+                if (coord.lat === lat && coord.lon === lon && coord.title === title) {
+                    return { ...coord, description };
+                }
+                return coord;
+            });
+
             localStorage.setItem('coordinates', JSON.stringify(coordinates));
 
             closeModal();
@@ -149,11 +170,13 @@
                     </div>
                     <div class="modal-body">
                         <p><strong>Indirizzo:</strong> {{ selectedMarker?.title }}</p>
-                        <p><strong>Descrizione:</strong> {{ selectedMarker?.description }}</p>
+                        <p><strong>Descrizione:</strong></p>
+                        <textarea v-model="selectedMarker.description" class="form-control"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="closeModal">Chiudi</button>
                         <button type="button" class="btn btn-danger" @click="deleteMarker">Elimina</button>
+                        <button type="button" class="btn btn-primary" @click="updateDescription">Salva modifiche</button>
                     </div>
                 </div>
             </div>
