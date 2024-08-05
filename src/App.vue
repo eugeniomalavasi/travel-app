@@ -2,17 +2,17 @@
   import axios from "axios"
   import AppNavBar from "./components/AppNavBar.vue"
   import AppFooter from "./components/AppFooter.vue"
-  import MainMap from "./components/MainMap.vue"
+  import Map from "./components/Map.vue"
 
   export default {
-    components: { AppNavBar, AppFooter, MainMap },
+    components: { AppNavBar, AppFooter, Map },
   }
 </script>
 
 <template>
   <AppNavBar />
-  <div class="container">
-    <MainMap />
+  <div class="">
+    <Map />
   </div>
   <AppFooter />
 </template>
