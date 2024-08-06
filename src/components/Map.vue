@@ -233,6 +233,14 @@
 </template>
 
 <style scoped lang="scss">
+    @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+    * {
+        font-family: "Varela Round", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
     .map-wrap {
         position: relative;
         width: 100%;
