@@ -23,8 +23,8 @@ The Travel App allows users to add, edit, and delete markers on a map using the 
 - Local Storage for data persistence
 
   ## Screenshots
-![alt text](image.png)
 ![alt text](image-1.png)
+![alt text](image.png)
 
 ## Getting Started
 
