@@ -240,8 +240,8 @@
 
         .ms-btn {
             position: absolute;
-            right: 50px;
-            bottom: 100px;
+            right: 30px;
+            bottom: 80px;
             z-index: 999;
             width: 70px;
             height: 70px;
