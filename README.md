@@ -21,8 +21,10 @@ The Travel App allows users to add, edit, and delete markers on a map using the 
 - MapTiler SDK
 - Bootstrap for modals and buttons
 - Local Storage for data persistence
-![alt text](image.png)
+
+  ## Screenshots
 ![alt text](image-1.png)
+![alt text](image.png)
 
 ## Getting Started
 
