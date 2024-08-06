@@ -11,12 +11,12 @@
         title: '',
         description: '',
         image: null,
-        index: 0 
+        index: 0
     });
 
     const selectedMarker = ref(null);
-    const showModal = ref(false); 
-    const activeIndex = ref(0); 
+    const showModal = ref(false);
+    const activeIndex = ref(0);
 
     onMounted(() => {
         config.apiKey = 'cXh6kpqsIV9qrsbI2IKs';
@@ -44,7 +44,7 @@
         const address = form.value.title;
         const description = form.value.description;
         const image = form.value.image;
-        const index = form.value.index; 
+        const index = form.value.index;
 
         if (!address) {
             console.log('Inserisci un indirizzo');
@@ -160,10 +160,10 @@
 
 <template>
     <div class="map-wrap">
-        <button type="button" class="btn btn-primary ms-btn" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-            Aggiungi Località
+        <button type="button" class="btn btn-default btn-circle btn-lg ms-btn" data-bs-toggle="modal"
+            data-bs-target="#addLocationModal">
+            <i class="fa fa-plus"></i>
         </button>
-
         <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -240,8 +240,17 @@
 
         .ms-btn {
             position: absolute;
-            left: 0;
+            right: 50px;
+            bottom: 100px;
             z-index: 999;
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 35px;
+            font-size: 24px;
+            line-height: 1.33;
+            background-color: #9c248e;
+            color: white;
         }
 
         .map {
