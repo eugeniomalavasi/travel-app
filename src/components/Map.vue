@@ -67,7 +67,7 @@
 
     const addMarker = (lat, lon, title, description, image, index) => {
         if (map.value) {
-            const marker = new Marker({ color: "blue" })
+            const marker = new Marker({ color: "#9c248e" })
                 .setLngLat([lon, lat])
                 .addTo(map.value);
 
