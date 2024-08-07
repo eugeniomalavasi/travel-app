@@ -244,7 +244,7 @@
     .map-wrap {
         position: relative;
         width: 100%;
-        height: calc(100vh - 56px);
+        height: calc(100vh - 159px);
 
         .ms-btn {
             position: absolute;
