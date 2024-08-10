@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <div class="bg-dark">
+    <div class="ms-bg-dark">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top container">
             <div class="col-md-4 d-flex align-items-center">
                 <a class="navbar-brand" href="#">
@@ -25,5 +25,9 @@
 <style scoped lang="scss">
 .ms-color {
     color: white;
+}
+
+.ms-bg-dark {
+    background-color: #06172b;
 }
 </style>
