@@ -18,7 +18,8 @@
                 selectedMarker: null,
                 showModal: false,
                 activeIndex: 0,
-                locations: [] 
+                locations: [],
+                displayLocations: true,
             };
         },
 
@@ -178,7 +179,7 @@
                 if (file) {
                     reader.readAsDataURL(file);
                 }
-            }
+            },
         },
 
         mounted() {
@@ -201,12 +202,18 @@
             <i class="fa fa-plus"></i>
         </button>
 
+        <!-- Show Locations Button -->
+        <button type="button" class="btn btn-default btn-circle btn-lg ms-btn-show" @click="displayLocations = !displayLocations">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
         <!-- Location Cards -->
-        <div class="container mt-4 position-absolute z-3 ms-card-container">
+        <div class="container mt-4 position-absolute z-3 ms-card-container" v-if="displayLocations">
             <div class="row">
                 <div class="col mb-4 ms-card" v-for="(location, index) in locations" :key="index">
                     <div class="card">
-                        <img :src="location.image" class="card-img-top img-fluid object-fit-cover ms-img" alt="Image" v-if="location.image">
+                        <img :src="location.image" class="card-img-top img-fluid object-fit-cover ms-img" alt="Image"
+                            v-if="location.image">
                         <div class="card-body">
                             <h6 class="card-title">{{ location.title }}</h6>
                             <div class="vote-container">
@@ -302,22 +309,38 @@
         position: relative;
         width: 100%;
         height: calc(100vh - 159px);
+
+        .ms-btn {
+            position: absolute;
+            right: 30px;
+            bottom: 80px;
+            z-index: 999;
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 35px;
+            font-size: 24px;
+            line-height: 1.33;
+            background-color: #9c248e;
+            color: white;
+        }
+
+        .ms-btn-show {
+            position: absolute;
+            right: 30px;
+            bottom: 160px;
+            z-index: 99;
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 35px;
+            font-size: 24px;
+            line-height: 1.33;
+            background-color: #9c248e;
+            color: white;
+        }
     }
 
-    .ms-btn {
-        position: absolute;
-        right: 30px;
-        bottom: 80px;
-        z-index: 999;
-        width: 70px;
-        height: 70px;
-        padding: 10px 16px;
-        border-radius: 35px;
-        font-size: 24px;
-        line-height: 1.33;
-        background-color: #9c248e;
-        color: white;
-    }
 
     .modal-backdrop.show {
         opacity: 0.5;
@@ -350,13 +373,13 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            height: 100%; 
+            height: 100%;
 
             .card {
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                justify-content: space-between; 
+                justify-content: space-between;
                 background: white;
 
                 .ms-img {
