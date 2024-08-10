@@ -19,7 +19,7 @@
                 showModal: false,
                 activeIndex: 0,
                 locations: [],
-                displayLocations: true,
+                displayLocations: null,
             };
         },
 
