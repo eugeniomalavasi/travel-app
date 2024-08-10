@@ -18,6 +18,7 @@
                 selectedMarker: null,
                 showModal: false,
                 activeIndex: 0,
+                locations: [] 
             };
         },
 
@@ -41,6 +42,8 @@
                 }));
 
                 const storedCoordinates = this.getStoredCoordinates();
+                this.locations = storedCoordinates;
+
                 storedCoordinates.forEach(({ lat, lon, title, description, image, index }) => {
                     this.addMarker(lat, lon, title, description, image, index);
                 });
@@ -63,6 +66,8 @@
                         const { lat, lon } = response.data.results[0].position;
                         this.addMarker(lat, lon, address, description, image, index);
                         this.storeCoordinates(lat, lon, address, description, image, index);
+
+                        this.locations.push({ lat, lon, title: address, description, image, index });
                     } else {
                         console.log('Indirizzo non trovato');
                     }
@@ -73,7 +78,7 @@
 
             addMarker(lat, lon, title, description, image, index) {
                 if (this.map) {
-                    const marker = new Marker({ color: "#9c248e" })
+                    const marker = new Marker({ color: '#9c248e' })
                         .setLngLat([lon, lat])
                         .addTo(this.map);
 
@@ -111,6 +116,8 @@
                     coordinates = coordinates.filter(coord => coord.lat !== lat || coord.lon !== lon || coord.title !== title || coord.description !== description || coord.image !== image || coord.index !== index);
                     localStorage.setItem('coordinates', JSON.stringify(coordinates));
 
+                    this.locations = coordinates;
+
                     this.closeModal();
                 }
             },
@@ -127,6 +134,8 @@
                     });
 
                     localStorage.setItem('coordinates', JSON.stringify(coordinates));
+
+                    this.locations = coordinates;
 
                     this.closeModal();
                 }
@@ -186,10 +195,32 @@
 
 <template>
     <div class="map-wrap">
+        <!-- Add Location Button -->
         <button type="button" class="btn btn-default btn-circle btn-lg ms-btn" data-bs-toggle="modal"
             data-bs-target="#addLocationModal">
             <i class="fa fa-plus"></i>
         </button>
+
+        <!-- Location Cards -->
+        <div class="container mt-4 position-absolute z-3 ms-card-container">
+            <div class="row">
+                <div class="col mb-4 ms-card" v-for="(location, index) in locations" :key="index">
+                    <div class="card">
+                        <img :src="location.image" class="card-img-top img-fluid object-fit-cover ms-img" alt="Image" v-if="location.image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ location.title }}</h5>
+                            <p class="card-text">{{ location.description }}</p>
+                            <div class="vote-container">
+                                <i class="fa-solid fa-star" v-for="starIndex in 5" :key="starIndex"
+                                    :class="{ 'active-star': starIndex <= location.index }"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Location Modal -->
         <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -222,6 +253,10 @@
             </div>
         </div>
 
+        <!-- Map Container -->
+        <div ref="mapContainer" class="map-container"></div>
+
+        <!-- Marker Details Modal -->
         <div class="modal" :class="{ show: showModal }" tabindex="-1" style="display: block;" v-if="showModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -252,8 +287,6 @@
                 </div>
             </div>
         </div>
-
-        <div ref="mapContainer" class="map-container"></div>
     </div>
 </template>
 
@@ -268,10 +301,8 @@
 
     .map-wrap {
         position: relative;
-        height: 100vh;
         width: 100%;
         height: calc(100vh - 159px);
-
     }
 
     .ms-btn {
@@ -311,5 +342,36 @@
 
     .active-star {
         color: orange;
+    }
+
+    .ms-card-container {
+        bottom: 20px;
+
+        .ms-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 100%; 
+
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between; 
+                background: white;
+
+                .ms-img {
+                    height: 150px;
+                    object-fit: cover;
+                }
+
+                .card-body {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+            }
+        }
     }
 </style>
