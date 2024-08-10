@@ -208,10 +208,9 @@
                     <div class="card">
                         <img :src="location.image" class="card-img-top img-fluid object-fit-cover ms-img" alt="Image" v-if="location.image">
                         <div class="card-body">
-                            <h5 class="card-title">{{ location.title }}</h5>
-                            <p class="card-text">{{ location.description }}</p>
+                            <h6 class="card-title">{{ location.title }}</h6>
                             <div class="vote-container">
-                                <i class="fa-solid fa-star" v-for="starIndex in 5" :key="starIndex"
+                                <i class="fa-solid fa-star ms-vote" v-for="starIndex in 5" :key="starIndex"
                                     :class="{ 'active-star': starIndex <= location.index }"></i>
                             </div>
                         </div>
@@ -337,11 +336,11 @@
     .fa-star {
         font-size: 1.5em;
         cursor: pointer;
-        color: gray;
+        color: rgb(167, 167, 167);
     }
 
     .active-star {
-        color: orange;
+        color: #9c248e;
     }
 
     .ms-card-container {
@@ -361,7 +360,7 @@
                 background: white;
 
                 .ms-img {
-                    height: 150px;
+                    height: 100px;
                     object-fit: cover;
                 }
 
@@ -370,6 +369,10 @@
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
+
+                    .ms-vote {
+                        font-size: 1rem;
+                    }
                 }
             }
         }
